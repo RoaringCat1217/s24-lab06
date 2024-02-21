@@ -29,27 +29,29 @@ public class Drawing {
      * @param filename file name
      */
     public void draw(String format, String filename) {
-        // TODO: Do you notice any issues here?
-        if (format.equals("jpeg")) {
-            try (Writer writer = new JPEGWriter(filename + ".jpeg")) {
-                for (Shape shape : this.shapes) {
-                    // TODO: What is the issue of the behavior here?
-                    Line[] lines = shape.toLines();
-                    shape.draw(writer, lines);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+        Writer writer = null;
+        try {
+            if (format.equals(filename))
+                writer = new JPEGWriter(filename + ".jpeg");
+            else if (format.equals("png"))
+                writer = new PNGWriter(filename + ".png");
+            
+            for (Shape shape : this.shapes) {
+                shape.draw(writer);
             }
-        } else if (format.equals("png")) {
-            try (Writer writer = new PNGWriter(filename + ".png")) {
-                for (Shape shape : this.shapes) {
-                    Line[] lines = shape.toLines();
-                    shape.draw(writer, lines);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (writer != null) {
+                try {
+                    writer.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
             }
+                
         }
+
     }
 }
 

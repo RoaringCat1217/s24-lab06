@@ -1,0 +1,7 @@
+Task 1
+Feature envy. Frogger uses all of Road's methods and reads all of the information of Road.
+
+Task 2
+Long method. The frogger constructor requires a lot of information.
+
+Task 3
